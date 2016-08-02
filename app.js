@@ -1,14 +1,6 @@
-// ------------------------------	//
-//			_______      							//
-//    |				 \			CHAT				//
-// 		\		____ |			APP					//
-// 		 \/													//
-//	A Simple messaging app 				//
-//  made with node.js, express,		//
-//  amd spcket.io									//
-// ------------------------------	//
-
-// Written by Kurt van Bendegem, July 2016
+//	CHAT APP
+//	A Simple messaging app made with node.js, express, and spcket.io
+//	Written by Kurt van Bendegem, July 2016
 
 var express = require('express');
 var app = express();
