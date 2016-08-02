@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+  <head>
+    <title>chatapp</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="shortcut icon" href="favicon.png" />
+  </head>
+
+
+  <body>
+
+
+    <div id="login-page">
+      <form id="login-form" action="">
+        <div id="login-header">
+          <h2>chat app</h2>
+        </div>
+        <p id="login-alert">Invalid login credentials</p>
+        <p>username</p>
+        <input type="text" id="username" autofocus>
+        <p>password</p>
+        <input type="password" id="password">
+        <button>Sign In</button>
+      </form>
+    </div>
+
+    <div id="curtain"></div>
+    <div id="main-app">
+      <header id='messaging-topbar'>
+        <button id="logout">
+          <!-- <img src="logout.png"> -->
+        </button>
+        <p id="loggedin"></p>
+      </header>
+      <ul id="messages"></ul>
+      <form id="message-enter" action="">
+        <input id="m" autocomplete="off" /><button>Send</button>
+      </form>
+    </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+  <script src="client.js"></script>
+
+  </body>
+</html>

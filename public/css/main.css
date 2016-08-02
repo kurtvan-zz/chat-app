@@ -1,0 +1,240 @@
+@import 'https://fonts.googleapis.com/css?family=Open+Sans';
+@import 'https://fonts.googleapis.com/css?family=Montserrat';
+
+/*
+	primary color: #36849d
+*/
+
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font: 13px Helvetica, Arial;
+	font-family: 'Open Sans', sans-serif;
+
+}
+
+#main-app {
+	display: none;
+}
+
+
+#curtain {
+	background-color: #e1e1e1;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 20;
+}
+
+#login-page {
+	padding: 0px;
+	padding-top: 0px;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	width: 400px;
+	max-width: 500px;
+	min-width: 300px;
+	transform: translate(-50%, -50%);
+	z-index: 21;
+	background-color: white;
+
+  -webkit-box-shadow: 0px 0px 141px 0px rgba(150,150,150,1);
+  -moz-box-shadow: 0px 0px 141px 0px rgba(150,150,150,1);
+  box-shadow: 0px 0px 141px 0px rgba(150,150,150,1);
+
+}
+
+#login-form {
+	width: 100%;
+	height: 100%;
+	background-color: white;
+}
+
+
+textarea:focus, input:focus {
+	outline: none;
+}
+
+#login-header {
+	position: relative;
+	background-color: #36849d;
+	width: 100%;
+	height: 60px;
+	margin-bottom: 20px;
+}
+
+#login-form h2 {
+	font-family: font-family: 'Montserrat', sans-serif;
+	font-size: 24px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+	color: white;
+}
+
+form p {
+	color: #b9b9b9;
+	margin-left: 20px;
+}
+
+#login-alert {
+	color: red;
+	padding: 10px 0 10px 0;
+}
+
+#login-form input {
+	display: block;
+	width: 360px;
+	height: 30px;
+	margin-left: 20px;
+	margin-bottom: 20px;
+	padding: 5px;
+	font-size: 16px;
+	background-color: transparent;
+
+
+	border: none;
+	border-bottom: solid #b9b9b9 2px;
+
+	-webkit-transition: border 0.5s ease;
+  -moz-transition: border 0.5s ease;
+  -ms-transition: border 0.5s ease;
+  -o-transition: border 0.5s ease;
+  transition: border 0.5s ease;
+}
+
+#login-form input:focus {
+	border-bottom: solid gray 2px
+}
+
+#login-form button {
+	margin: 5px 0px 25px 0px;
+	width: 360px;
+	margin-left: 20px;
+	height: 40px;
+	background-color: white;
+	border: solid gray 1px;
+	cursor: pointer;
+
+  -webkit-transition: all 0.25s ease;
+  -moz-transition: all 0.25s ease;
+  -ms-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+}
+
+#login-form button:hover {
+	background-color: gray;
+	color: white;
+}
+
+
+#messaging-topbar {
+	position: relative;
+	width: 100%;
+	height: 50px;
+	background-color: #36849d;
+	z-index: 15;
+	overflow: none;
+}
+
+#logout {
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	transform: translate(0, -50%);
+	background-color: transparent;
+	background-image: url('logout.png');
+	background-size: contain;
+	cursor: pointer;
+	border: none;
+	color: white;
+	height: 30px;
+	width: 30px;
+}
+
+
+#loggedin {
+	position: absolute;
+	z-index: 19;
+	top: 50%;
+	left: 20px;
+	transform: translate(0, -50%);
+	color: white;
+
+	font-size: 20px;
+}
+
+/*#loggedin img {
+	height: 100%;
+	width: 100%;
+}*/
+
+/* The message entering form*/
+#message-enter {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: 40px;
+
+	z-index: 15;
+
+	-webkit-box-shadow: 0px 6px 44px 10px rgba(122,122,122,1);
+	-moz-box-shadow: 0px 6px 44px 10px rgba(122,122,122,1);
+	box-shadow: 0px 6px 44px 10px rgba(122,122,122,1);
+}
+
+
+#message-enter input {
+	border: 0;
+	padding: 10px;
+	width: 90%;
+	height: 100%;
+
+}
+
+#message-enter button {
+	width: 10%;
+	z-index:
+	height: 100%;
+	float: right;
+	background: gray;
+	border: none;
+	padding: 10px;
+	color: white;
+	font-size: 16px;
+
+	cursor: pointer;
+}
+
+#messages {
+	position: absolute;
+	top: 50px;
+	width: 100%;
+	overflow-y: scroll;
+
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+
+	z-index: 10;
+
+}
+
+#messages li {
+	padding: 5px 10px;
+}
+
+#messages li:nth-child(odd) {
+	background: #eee;
+}
