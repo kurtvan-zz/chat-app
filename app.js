@@ -54,7 +54,7 @@ var userExists = function(user) {
 
 // updates the JSON data file with the values in data
 var updateData = function() {
-		fs.writeFileSync('data.json', JSON.stringify(data));
+		fs.writeFileSync('data.json', JSON.stringify(data, null, 4));
 }
 
 // ASYNCHRONOUS

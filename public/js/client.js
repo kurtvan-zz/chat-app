@@ -83,6 +83,15 @@ socket.on('login-failure', function(loginUser) {
 	$('#login-alert').css('color', 'red');
 });
 
+socket.on('signup-success', function() {
+	$('form p').css('color', '#b9b9c8');
+	$('#login-alert').css('color', 'rgb(0, 158, 77)');
+	$('#login-form').css('background-color', 'white');
+	$('#login-alert').text('account ' + '\'' + $('#username').val() + '\' created');
+	$('#login-alert').show(200);
+
+});
+
 $('#logout').click(function() {
 	socket.emit('logout', user);
 

@@ -1,1 +1,14 @@
-{"users":[{"username":"george","password":"1234","convos":[]},{"username":"bob","password":"password","convos":[]},{"username":"poop","password":"1","convos":[]}]}
+{
+    "users": [
+        {
+            "username": "george",
+            "password": "1234",
+            "convos": []
+        },
+        {
+            "username": "bob",
+            "password": "password",
+            "convos": []
+        }
+    ]
+}
