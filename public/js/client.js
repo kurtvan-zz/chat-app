@@ -6,6 +6,18 @@
 var socket = io();
 var user = null;
 
+var logIn = function() {
+	socket.emit('login-attempt', [$('#username').val(), $('#password').val()]);
+	$('#password').val('');
+	return false;
+}
+
+var signUp = function() {
+	socket.emit('signup-attempt', [$('#username').val(), $('#password').val()]);
+	$('#password').val('');
+	return false;
+}
+
 // focus on the username field
 $(document).ready(function() {
 	$('#login-alert').hide();
@@ -14,35 +26,34 @@ $(document).ready(function() {
 
 	var messages_window_height = $(window).height() - $('#message-enter').height() - $('#messaging-topbar').height();
 	$('#messages').css("height", messages_window_height.toString() + "px");
-
-
 })
 
-// when the user clicks the login button
-$('#login-form button').click(function() {
-	socket.emit('login', [$('#username').val(), $('#password').val()]);
-	$('#password').val('');
-	return false;
+//when the user clicks the login button
+$('#signin').click(function() {
+	logIn();
 });
 
+// or when the user submits the form
+// $("#login-form").submit( function() {
+// 	logIn();
+// });
+
+$('#signup').click(function() {
+	signUp();
+});
 // when message is sent, emit to all sockets
 $('#message-enter').submit(function() {
-	socket.emit('chat message', [$('#m').val(), user]);
+	socket.emit('chat-message', [$('#m').val(), user]);
 	$('#m').val('');
-
-	// $('#messages').scrollTop($('#messages')[0].scrollHeight);
-
-
 	$("#messages").animate({
 		scrollTop: $("#messages").height()},
 		"fast"
 	);
-
 	return false;
 });
 
 // when message is recieved, add to <ul>
-socket.on('chat message', function(msg) {
+socket.on('chat-message', function(msg) {
 	$('#messages').append($('<li>').text(msg));
 });
 
@@ -82,9 +93,6 @@ $('#logout').click(function() {
 		$('#main-app').hide();
 		$('#username').focus();
 	});
-
-
-
 
 	//  animation for login transition
 	$('#login-page').animate({

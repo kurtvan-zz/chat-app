@@ -11,7 +11,7 @@
 
 
     <div id="login-page">
-      <form id="login-form" action="">
+      <form id="login-form" action="" onsubmit="return false;">
         <div id="login-header">
           <h2>chat app</h2>
         </div>
@@ -20,7 +20,9 @@
         <input type="text" id="username" autofocus>
         <p>password</p>
         <input type="password" id="password">
-        <button>Sign In</button>
+        <button id="signin">Sign In</button>
+        <button id="signup">Sign up</button>
+
       </form>
     </div>
 

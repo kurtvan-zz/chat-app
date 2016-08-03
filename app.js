@@ -78,15 +78,15 @@ io.on('connection', function(socket) {
 	//console.log('a user connected');
 
 
-	socket.on('chat message', function(pair) {
+	socket.on('chat-message', function(pair) {
 		if (pair[0].length > 0) {
-			io.emit('chat message', pair[1] + ':	' + pair[0]);
+			io.emit('chat-message', pair[1] + ':	' + pair[0]);
 			console.log(pair[1] + ' sent a message:' + pair[0]);
 		}
 	});
 
 	// when a connected socket logs in as a user
-	socket.on('login', function(inputs) {
+	socket.on('login-attempt', function(inputs) {
 
 		console.log("login attempt")
 
@@ -101,9 +101,16 @@ io.on('connection', function(socket) {
 			console.log("incorrect credentials for user" + inputs[0]);
 			socket.emit('login-failure', inputs[0]);
 		}
-
-
 	});
+
+	socket.on('signup-attempt', function(inputs) {
+		if (userExists(inputs[0]) == false) {
+			socket.emit('signup-success');
+			addUser(inputs[0], inputs[1]);
+			updateData();
+			console.log('new user ' + inputs[0]);
+		}
+	})
 
 	// output when the user disconnects from the socket as
 	// well

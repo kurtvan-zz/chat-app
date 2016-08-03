@@ -5,7 +5,6 @@
 	primary color: #36849d
 */
 
-
 * {
 	margin: 0;
 	padding: 0;
@@ -119,7 +118,7 @@ form p {
 
 #login-form button {
 	margin: 5px 0px 25px 0px;
-	width: 360px;
+	width: 168px;
 	margin-left: 20px;
 	height: 40px;
 	background-color: white;
