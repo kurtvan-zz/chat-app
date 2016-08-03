@@ -59,6 +59,7 @@ socket.on('chat-message', function(msg) {
 
 socket.on('login-success', function(loginUser) {
 	// transition from login page to chat page
+	$('#username').val('');
 	$('#login-alert').hide(200);
 	$('#login-form').css('background-color', '#BFFFBD'); // green for success
 	$('form p').css('color', 'black');
@@ -77,6 +78,7 @@ socket.on('login-success', function(loginUser) {
 
 // when there is a login failure
 socket.on('login-failure', function(loginUser) {
+	$('#login-alert').text('Invalid login credentials');
 	$('#login-alert').show(200);
 	$('#login-form').css('background-color', '#ffcccc');
 	$('form p').css('color', 'white');
@@ -89,13 +91,30 @@ socket.on('signup-success', function() {
 	$('#login-form').css('background-color', 'white');
 	$('#login-alert').text('account ' + '\'' + $('#username').val() + '\' created');
 	$('#login-alert').show(200);
+});
 
+$("#username").focus(function() {
+	$("#user-validation").hide(200);
+});
+
+// $("#password").focus(function() {
+// 	socket.emit('user-verify', $("#username").val());
+// });
+
+socket.on('valid-username', function() {
+	$("#user-validation").text("valid username");
+	$("#user-validation").css("color", 'rgb(0, 158, 77)');
+	$('#user-validation').show(200);
+});
+
+socket.on('invalid-username', function() {
+	$("#user-validation").text("invalid username");
+	$("#user-validation").css("color", 'red');
+	$('#user-validation').show(200);
 });
 
 $('#logout').click(function() {
 	socket.emit('logout', user);
-
-
 	$('#login-form').css('background-color', 'white');
 
 	$('#curtain').fadeIn(200, function() {

@@ -16,6 +16,10 @@ var online = [];
 // put data into object (synchronous)
 var data = JSON.parse(fs.readFileSync('data.json', 'utf8'));
 
+// updates the JSON data file with the values in data
+var updateData = function() {
+		fs.writeFileSync('data.json', JSON.stringify(data, null, 4));
+}
 // user 'class' for creating new users
 function User(username, password) {
 	this.username = username;
@@ -23,6 +27,16 @@ function User(username, password) {
 	this.convos = [];
 }
 
+function Convo(users) {
+	this.id = data['num_convos'] + 1;
+	this.users = users;
+	this.messages = [];
+}
+
+function Message(from_user, message_text) {
+	this.from_user = from_user;
+	this.message_text = message_text;
+}
 
 // add a user to the data set, with a blank set of
 // conversations
@@ -52,10 +66,35 @@ var userExists = function(user) {
 	}
 }
 
-// updates the JSON data file with the values in data
-var updateData = function() {
-		fs.writeFileSync('data.json', JSON.stringify(data, null, 4));
+var addConvo = function(users) {
+		var newConvo = new Convo(users);
+		data['convos'].push(newConvo);
+		data['num_convos'] += 1;
+
+		for (var i = 0; i < users.length; i++) {
+			getUser(users[i])["convos"].push(newConvo["id"]);
+		}
+
+		updateData();
 }
+
+var deleteAllConvos = function() {
+	data["convos"] = [];
+	for (var i = 0; i < data['users'].length; i++) {
+		data["users"][i]["convos"] = [];
+	}
+
+	data["num_convos"] = 0;
+
+	updateData();
+
+
+}
+
+addConvo(['kurt', 'george']);
+addConvo(['kurt', 'george']);
+addConvo(['kurt', 'george', 'bob']);
+deleteAllConvos();
 
 // ASYNCHRONOUS
 // fs.readFile('users.json', 'utf8', function(err, data) {
@@ -104,13 +143,27 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('signup-attempt', function(inputs) {
-		if (userExists(inputs[0]) == false) {
+
+		if (userExists(inputs[0]) == false && inputs[0].length > 3) {
 			socket.emit('signup-success');
 			addUser(inputs[0], inputs[1]);
 			updateData();
 			console.log('new user ' + inputs[0]);
 		}
-	})
+
+		else {
+			socket.emit('invalid-username');
+		}
+	});
+
+	socket.on('user-verify', function(potentialUser) {
+		if(userExists(potentialUser) || potentialUser.length < 4) {
+			socket.emit('invalid-username');
+		}
+		else {
+			socket.emit('valid-username');
+		}
+	});
 
 	// output when the user disconnects from the socket as
 	// well
