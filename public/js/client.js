@@ -45,10 +45,7 @@ $('#signup').click(function() {
 $('#message-enter').submit(function() {
 	socket.emit('chat-message', [$('#m').val(), user]);
 	$('#m').val('');
-	$("#messages").animate({
-		scrollTop: $("#messages").height()},
-		"fast"
-	);
+
 	return false;
 });
 
@@ -65,11 +62,14 @@ socket.on('chat-message', function(msg) {
 	// $('#messages').append('<li class=message>' + msg["msg"] + '</li>');
 	$('#messages').append(msgHolder);
 
+	var last_li = $("#messages li:last-child").offset().top;
 
-	$("#messages").animate({
-		scrollTop: $("#messages").height()},
-		"fast"
-	);
+	// $("#messages").animate({
+  //   scrollTop: $("#messages li").last().offset().top
+  // }, 200);
+
+	$("#messages").animate({ scrollTop: $("#messages")[0].scrollHeight}, 200);
+
 });
 
 socket.on('login-success', function(loginUser) {
