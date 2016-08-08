@@ -1,5 +1,5 @@
 # chat-app
-A simple server-client messaging application written using node.js, express and socket.io
+A simple server-client messaging application written using node.js, express and socket.io.  Called Rambler within the application for the sake of not having a completely boring name.
 
 ## Installation
 

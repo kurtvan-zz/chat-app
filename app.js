@@ -119,7 +119,12 @@ io.on('connection', function(socket) {
 
 	socket.on('chat-message', function(pair) {
 		if (pair[0].length > 0) {
-			io.emit('chat-message', pair[1] + ':	' + pair[0]);
+			io.emit('chat-message',
+				{
+					"msg" : pair[1] + ':    ' + pair[0],
+					"user" : pair[1]
+				}
+			);
 			console.log(pair[1] + ' sent a message:' + pair[0]);
 		}
 	});

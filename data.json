@@ -14,11 +14,6 @@
             "username": "kurt",
             "password": "1234",
             "convos": []
-        },
-        {
-            "username": "blargh",
-            "password": "1234",
-            "convos": []
         }
     ],
     "num_convos": 0,

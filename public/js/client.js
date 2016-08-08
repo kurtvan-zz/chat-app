@@ -54,7 +54,22 @@ $('#message-enter').submit(function() {
 
 // when message is recieved, add to <ul>
 socket.on('chat-message', function(msg) {
-	$('#messages').append($('<li>').text(msg));
+	var msgHolder = $('<li class=message-holder></li>');
+	var newMsg = $('<p class=message>' + msg["msg"] + '</p>')
+	// var newMsg = $('<li class=message>' + msg["msg"] + '</li>');
+	if (msg["user"] == user) {
+		newMsg.addClass("self");
+	}
+
+	msgHolder.append(newMsg);
+	// $('#messages').append('<li class=message>' + msg["msg"] + '</li>');
+	$('#messages').append(msgHolder);
+
+
+	$("#messages").animate({
+		scrollTop: $("#messages").height()},
+		"fast"
+	);
 });
 
 socket.on('login-success', function(loginUser) {
