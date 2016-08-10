@@ -5,6 +5,7 @@
 // create global socket onject
 var socket = io();
 var user = null;
+var menuShowing = false;
 
 var logIn = function() {
 	socket.emit('login-attempt', [$('#username').val(), $('#password').val()]);
@@ -24,8 +25,12 @@ $(document).ready(function() {
 	$('#username').focus();
 	$('#m').val('');
 
-	var messages_window_height = $(window).height() - $('#message-enter').height() - $('#messaging-topbar').height();
-	$('#messages').css("height", messages_window_height.toString() + "px");
+	var messagesWindowHeight = $(window).height() - $('#message-enter').height() - $('#messaging-topbar').height();
+	$('#messages').css("height", messagesWindowHeight.toString() + "px");
+	$('#convo-list').css("height", messagesWindowHeight.toString() + "px");
+
+	var mainMenuHeight = $(window).height() - $('#message-enter').height();
+	$('#main-menu').css("height", mainMenuHeight.toString() + "px");
 })
 
 //when the user clicks the login button
@@ -88,7 +93,7 @@ socket.on('login-success', function(loginUser) {
 	});
 	// set the clients user
 	user = loginUser;
-	$('#loggedin').text("Hi, " + user);
+	$('#loggedin').text(user.toUpperCase());
 });
 
 // when there is a login failure
@@ -144,5 +149,30 @@ $('#logout').click(function() {
 	// set the clients user
 	user = null;
 	$('#loggedin').text('');
+
+});
+
+
+$("#show-convos").click(function() {
+
+	if (!menuShowing) {
+
+		menuShowing = true;
+
+		$("#main-menu").animate({
+			left: '0px'
+		}, 200);
+	}
+
+
+	else {
+
+		menuShowing = false;
+
+		$("#main-menu").animate({
+			left: ($("#main-menu").width() * -1).toString() + 'px'
+		}, 200);
+	}
+
 
 });
