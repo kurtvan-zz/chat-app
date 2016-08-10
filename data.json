@@ -3,7 +3,9 @@
         {
             "username": "george",
             "password": "1234",
-            "convos": []
+            "convos": [
+                1
+            ]
         },
         {
             "username": "bob",
@@ -13,9 +15,28 @@
         {
             "username": "kurt",
             "password": "1234",
-            "convos": []
+            "convos": [
+                1,
+                2
+            ]
         }
     ],
-    "num_convos": 0,
-    "convos": []
+    "num_convos": 2,
+    "convos": [
+        {
+            "id": 1,
+            "members": [
+                "kurt",
+                "george"
+            ],
+            "messages": []
+        },
+        {
+            "id": 2,
+            "members": [
+                "kurt"
+            ],
+            "messages": []
+        }
+    ]
 }

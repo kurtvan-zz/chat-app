@@ -117,10 +117,6 @@ $("#username").focus(function() {
 	$("#user-validation").hide(200);
 });
 
-// $("#password").focus(function() {
-// 	socket.emit('user-verify', $("#username").val());
-// });
-
 socket.on('valid-username', function() {
 	$("#user-validation").text("valid username");
 	$("#user-validation").css("color", 'rgb(0, 158, 77)');

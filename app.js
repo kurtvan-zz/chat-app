@@ -35,7 +35,7 @@ function Convo(users) {
 
 function getConvo(id) {
 	var convo;
-	for (var i; i < data["convos"].length; i++) {
+	for (var i = 0; i < data["convos"].length; i++) {
 		convo = data["convos"][i]["id"];
 
 		if (convo == id) {
@@ -47,6 +47,27 @@ function getConvo(id) {
 
 function getConvoMessages(id) {
 	return getConvo(id)["messages"];
+}
+
+function getUserConvos(user) {
+
+	var userObj = getUser(user);
+	var convos_ids = userObj["convos"];
+
+	var convos = [];
+
+	// for all conversation objects
+	for (var i = 0; i < data["convos"].length; i++) {
+
+		// if the conversation is in the users list of convos,
+		// add to convos array
+		if (convos_ids.indexOf(data["convos"][i]["id"]) > -1) {
+			convos.push(data["convos"][i]);
+		}
+	}
+
+	return convos;
+
 }
 
 function Message(from_user, message_text) {
@@ -105,26 +126,6 @@ var deleteAllConvos = function() {
 	updateData();
 }
 
-addConvo(["kurt", "george"]);
-addConvo(["kurt", "george"]);
-addConvo(["kurt", "george"]);
-updateData();
-deleteAllConvos();
-updateData();
-
-// "convos": [
-// 	{
-// 		"id" : 1,
-// 		"messages" : [
-// 			{
-// 				"sender" : "george",
-// 				"text" : "hello world"
-// 			}
-// 		],
-// 		"members" : ["kurt", "george"]
-// 	}
-// ]
-
 // ASYNCHRONOUS
 // fs.readFile('users.json', 'utf8', function(err, data) {
 // 	if(err) throw err;
@@ -143,9 +144,9 @@ app.use(express.static(path.join(__dirname, 'public/images')));
 
 // when a user connects to the socket, output stuff
 io.on('connection', function(socket) {
-	//console.log('a user connected');
 
-
+	// when a chat message is sent to the server, emit the message
+	// to the conversation if the 
 	socket.on('chat-message', function(pair) {
 		if (pair[0].length > 0) {
 			io.emit('chat-message',
@@ -158,7 +159,8 @@ io.on('connection', function(socket) {
 		}
 	});
 
-	// when a connected socket logs in as a user
+	// when a client tries to login, verify that a valid username
+	// and password are given, and login this user if so
 	socket.on('login-attempt', function(inputs) {
 
 		console.log("login attempt")
@@ -176,8 +178,9 @@ io.on('connection', function(socket) {
 		}
 	});
 
+	// Verify that username is valid and create new user if
+	// this is the case
 	socket.on('signup-attempt', function(inputs) {
-
 		if (userExists(inputs[0]) == false && inputs[0].length > 3) {
 			socket.emit('signup-success');
 			addUser(inputs[0], inputs[1]);
@@ -187,15 +190,6 @@ io.on('connection', function(socket) {
 
 		else {
 			socket.emit('invalid-username');
-		}
-	});
-
-	socket.on('user-verify', function(potentialUser) {
-		if(userExists(potentialUser) || potentialUser.length < 4) {
-			socket.emit('invalid-username');
-		}
-		else {
-			socket.emit('valid-username');
 		}
 	});
 
