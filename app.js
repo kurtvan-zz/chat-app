@@ -29,13 +29,29 @@ function User(username, password) {
 
 function Convo(users) {
 	this.id = data['num_convos'] + 1;
-	this.users = users;
+	this.members = users;
 	this.messages = [];
 }
 
+function getConvo(id) {
+	var convo;
+	for (var i; i < data["convos"].length; i++) {
+		convo = data["convos"][i]["id"];
+
+		if (convo == id) {
+			return true;
+		}
+		return false;
+	}
+}
+
+function getConvoMessages(id) {
+	return getConvo(id)["messages"];
+}
+
 function Message(from_user, message_text) {
-	this.from_user = from_user;
-	this.message_text = message_text;
+	this.sender = from_user;
+	this.text = message_text;
 }
 
 // add a user to the data set, with a blank set of
@@ -87,14 +103,27 @@ var deleteAllConvos = function() {
 	data["num_convos"] = 0;
 
 	updateData();
-
-
 }
 
-addConvo(['kurt', 'george']);
-addConvo(['kurt', 'george']);
-addConvo(['kurt', 'george', 'bob']);
+addConvo(["kurt", "george"]);
+addConvo(["kurt", "george"]);
+addConvo(["kurt", "george"]);
+updateData();
 deleteAllConvos();
+updateData();
+
+// "convos": [
+// 	{
+// 		"id" : 1,
+// 		"messages" : [
+// 			{
+// 				"sender" : "george",
+// 				"text" : "hello world"
+// 			}
+// 		],
+// 		"members" : ["kurt", "george"]
+// 	}
+// ]
 
 // ASYNCHRONOUS
 // fs.readFile('users.json', 'utf8', function(err, data) {
