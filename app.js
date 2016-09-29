@@ -146,16 +146,15 @@ app.use(express.static(path.join(__dirname, 'public/images')));
 io.on('connection', function(socket) {
 
 	// when a chat message is sent to the server, emit the message
-	// to the conversation if the 
-	socket.on('chat-message', function(pair) {
-		if (pair[0].length > 0) {
-			io.emit('chat-message',
-				{
-					"msg" : pair[1] + ':    ' + pair[0],
-					"user" : pair[1]
+	// to the conversation if the message has content in it
+	socket.on('chat-message', function(message_data) {
+		if (message_data[0].length > 0) {
+			io.emit('chat-message', msg = {
+					"msg" : message_data[1] + ':    ' + message_data[0],
+					"user" : message_data[1]
 				}
 			);
-			console.log(pair[1] + ' sent a message:' + pair[0]);
+			console.log(message_data[1] + ' sent a message:' + message_data[0]);
 		}
 	});
 

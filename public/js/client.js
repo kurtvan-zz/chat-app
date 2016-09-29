@@ -5,6 +5,7 @@
 // create global socket onject
 var socket = io();
 var user = null;
+var convo = null;
 var menuShowing = false;
 
 var logIn = function() {
@@ -19,40 +20,50 @@ var signUp = function() {
 	return false;
 }
 
-// focus on the username field
+// focus on the username field upon loading page
 $(document).ready(function() {
 	$('#login-alert').hide();
 	$('#username').focus();
 	$('#m').val('');
 
+	// calculate height of the messages window based on the header and
+	// messsage bar heights
 	var messagesWindowHeight = $(window).height() - $('#message-enter').height() - $('#messaging-topbar').height();
 	$('#messages').css("height", messagesWindowHeight.toString() + "px");
 	$('#convo-list').css("height", messagesWindowHeight.toString() + "px");
 
+	// similar calculation for the slide out menu's height
 	var mainMenuHeight = $(window).height() - $('#message-enter').height();
 	$('#main-menu').css("height", mainMenuHeight.toString() + "px");
 })
 
-//when the user clicks the login button
+
+// ----------------------------------------------------------------------------
+// Event Handlers for clicking and UI
+// ----------------------------------------------------------------------------
+
+// when the user clicks the login button
 $('#signin').click(function() {
 	logIn();
 });
 
-// or when the user submits the form
-// $("#login-form").submit( function() {
-// 	logIn();
-// });
-
+// when the user clicks the sign up button
 $('#signup').click(function() {
 	signUp();
 });
+
 // when message is sent, emit to all sockets
 $('#message-enter').submit(function() {
 	socket.emit('chat-message', [$('#m').val(), user]);
 	$('#m').val('');
-
 	return false;
 });
+
+
+// ----------------------------------------------------------------------------
+// Event Handlers for events sent from the server
+// ----------------------------------------------------------------------------
+
 
 // when message is recieved, add to <ul>
 socket.on('chat-message', function(msg) {
@@ -159,8 +170,6 @@ $("#show-convos").click(function() {
 			left: '0px'
 		}, 200);
 	}
-
-
 	else {
 
 		menuShowing = false;
@@ -169,6 +178,4 @@ $("#show-convos").click(function() {
 			left: ($("#main-menu").width() * -1).toString() + 'px'
 		}, 200);
 	}
-
-
 });
