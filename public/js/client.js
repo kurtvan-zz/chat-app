@@ -2,22 +2,28 @@
 // controls listing messages and emitting outgoing
 // ones to the socket
 
-// create global socket onject
+
+// ----------------------------------------------------------------------------
+// Global Variables
+// ----------------------------------------------------------------------------
+
 var socket = io();
 var user = null;
 var convo = null;
 var menuShowing = false;
 
+// package login information and emit event to the server
 var logIn = function() {
 	socket.emit('login-attempt', [$('#username').val(), $('#password').val()]);
 	$('#password').val('');
-	return false;
+	return false; // prevents the html form from auto submitting
 }
 
+// package sign up information and send emit event to the server
 var signUp = function() {
 	socket.emit('signup-attempt', [$('#username').val(), $('#password').val()]);
 	$('#password').val('');
-	return false;
+	return false; // prevents the html form from auto submitting
 }
 
 // focus on the username field upon loading page
@@ -54,9 +60,49 @@ $('#signup').click(function() {
 
 // when message is sent, emit to all sockets
 $('#message-enter').submit(function() {
-	socket.emit('chat-message', [$('#m').val(), user]);
+	socket.emit('chat-message', [$('#m').val(), user, convo]);
 	$('#m').val('');
 	return false;
+});
+
+$('#logout').click(function() {
+	socket.emit('logout', user);
+	$('#login-form').css('background-color', 'white');
+
+	$('#curtain').fadeIn(200, function() {
+		$('#main-app').hide();
+		$('#username').focus();
+	});
+
+	//  animation for login transition
+	$('#login-page').animate({
+			top: '50%'
+		}, 800);
+	// set the clients user
+	user = null;
+	$('#loggedin').text('');
+
+});
+
+
+$("#show-convos").click(function() {
+
+	if (!menuShowing) {
+
+		menuShowing = true;
+
+		$("#main-menu").animate({
+			left: '0px'
+		}, 200);
+	}
+	else {
+
+		menuShowing = false;
+
+		$("#main-menu").animate({
+			left: ($("#main-menu").width() * -1).toString() + 'px'
+		}, 200);
+	}
 });
 
 
@@ -103,8 +149,31 @@ socket.on('login-success', function(loginUser) {
 			$('#curtain').fadeOut(200);
 	});
 	// set the clients user
-	user = loginUser;
+	user = loginUser[0];
 	$('#loggedin').text(user.toUpperCase());
+
+	// populate the convo list for the client
+	var convo_list = loginUser[1];
+	var users_string;
+	var cur_convo;
+
+	// for every conversation
+	for (var i = 0; i < convo_list.length; i++) {
+		users_string = "";
+		cur_convo = convo_list[i];
+
+		// for every user in the conversation, add it to a string
+		for (var j = 0; j < cur_convo.members.length; j++) {
+			users_string = users_string + cur_convo.members[j];
+			if (j < cur_convo.members.length - 1) {
+				users_string = users_string + ", ";
+			}
+		}
+
+		$("#convo-list").append('<li>'+ users_string +'</li>');
+		console.log("butts");
+	}
+
 });
 
 // when there is a login failure
@@ -138,44 +207,4 @@ socket.on('invalid-username', function() {
 	$("#user-validation").text("invalid username");
 	$("#user-validation").css("color", 'red');
 	$('#user-validation').show(200);
-});
-
-$('#logout').click(function() {
-	socket.emit('logout', user);
-	$('#login-form').css('background-color', 'white');
-
-	$('#curtain').fadeIn(200, function() {
-		$('#main-app').hide();
-		$('#username').focus();
-	});
-
-	//  animation for login transition
-	$('#login-page').animate({
-			top: '50%'
-		}, 800);
-	// set the clients user
-	user = null;
-	$('#loggedin').text('');
-
-});
-
-
-$("#show-convos").click(function() {
-
-	if (!menuShowing) {
-
-		menuShowing = true;
-
-		$("#main-menu").animate({
-			left: '0px'
-		}, 200);
-	}
-	else {
-
-		menuShowing = false;
-
-		$("#main-menu").animate({
-			left: ($("#main-menu").width() * -1).toString() + 'px'
-		}, 200);
-	}
 });

@@ -8,11 +8,6 @@
             ]
         },
         {
-            "username": "bob",
-            "password": "password",
-            "convos": []
-        },
-        {
             "username": "kurt",
             "password": "1234",
             "convos": [
@@ -21,14 +16,11 @@
             ]
         },
         {
-            "username": "blae",
-            "password": "232313",
-            "convos": []
-        },
-        {
             "username": "nomi",
             "password": "1234",
-            "convos": []
+            "convos": [
+                2
+            ]
         }
     ],
     "num_convos": 2,
@@ -39,14 +31,25 @@
                 "kurt",
                 "george"
             ],
-            "messages": []
+            "messages": [
+                1
+            ]
         },
         {
             "id": 2,
             "members": [
-                "kurt"
+                "kurt",
+                "nomi"
             ],
             "messages": []
+        }
+    ],
+    "num_messages": 1,
+    "messages": [
+        {
+            "id": 1,
+            "sender": "kurt",
+            "text": "test test test 123"
         }
     ]
 }
